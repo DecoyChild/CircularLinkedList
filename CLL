@@ -1,0 +1,160 @@
+public class CLL<T>
+{
+
+    private LinkedNode<T> head, curr, seeker;
+    private int size = 0;
+
+    public CLL()
+    {
+        head = new LinkedNode(-1, head);
+        curr = head;
+    }
+
+    public void insert(T element)
+    {
+        // if there is more than one node
+        if (size > 0)
+        {
+            LinkedNode<T> newNode = new LinkedNode(element, head);
+            curr.setNext(newNode);
+            curr = newNode;
+            size++;
+        } //if the size is 0 (new list)
+        else
+        {
+            LinkedNode<T> newNode = new LinkedNode(element, head);
+            head.setNext(newNode);
+            newNode.setNext(head);
+            curr = newNode;
+            size++;
+        }
+    }
+
+    //removes a specified node
+    //easy to convert back to remove only curr node (take away the parameters
+    public boolean remove(int elementToRemove)
+    {
+        goTo(elementToRemove);//removet this for curr node removial
+        boolean removed = false;
+
+        // for an empty list
+        if (size == 0)
+        {
+            System.out.println("Nothing ws removed");
+            return false;
+        } // if the list only has one node
+        else
+        {
+            if (size == 1)
+            {
+                head.setNext(head);
+                curr = head;
+            } // if the current is the last node of the list 
+            else
+            {
+                if (curr.getNext() == head && size < 1)
+                {
+                    prev();
+                    curr.setNext(head);
+                    size--;
+                } //removal in the middle of the list
+                else
+                {
+                    prev();
+                    curr.setNext(curr.getNext().getNext());
+                    size--;
+                }
+            }
+        }
+        return true;
+    }
+
+    // moves curr to the selected node
+    public boolean goTo(int index)
+    {
+        //start ffrom the beginning
+        curr = head;
+        //if the element is out of bounds 
+        if (index > size)
+        {
+            return false;
+        } else
+        {
+            // loops to the specified index
+            for (int i = 0; i < index; i++)
+            {
+                curr = curr.getNext();
+            }
+
+        }
+        return true;
+    }
+    
+
+    // sets the current to the start of the list (not the head)
+    public void goToStart()
+    {
+        this.curr = this.head.getNext();
+    }
+
+    //gets to the end of the list
+    public void goToEnd()
+    {
+        if (size > 0)
+        {
+            seeker = head;
+            while (seeker.getNext() != head)
+            {
+                seeker = seeker.getNext();
+            }
+            curr = seeker;
+        }
+
+    }
+
+    //gets the current node
+    public T getNode()
+    {
+        return curr.getElement();
+    }
+
+    // sets the curr to the previous node
+    public boolean prev()
+    {
+        if (this.size < 0)
+        {
+            return false;
+        }
+        else if (size > 0)
+        {
+            seeker = head;
+            while (seeker.getNext() != curr)
+            {
+                seeker = seeker.getNext();
+            }
+            curr = seeker;
+        }
+        return true;
+    }
+
+    // returns the size of the list
+    public int size()
+    {
+        return this.size;
+    }
+
+    // prints all the nodes in the list
+    public void printList()
+    {
+        
+        goToStart();
+        System.out.print("{ ");
+        while (curr != head)
+        {
+            System.out.print(curr.getElement() + " ");
+            curr = curr.getNext();
+        }
+        System.out.println("}");
+    }
+
+}
