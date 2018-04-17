@@ -1,3 +1,5 @@
+//Base code for a circular linked list
+//Uses a LinkedNode class
 public class CLL<T>
 {
 
